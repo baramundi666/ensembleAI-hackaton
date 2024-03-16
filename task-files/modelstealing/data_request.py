@@ -3,6 +3,7 @@ import torch
 import requests
 import json
 import pandas as pd
+from dataset_augmentation import augment_dataset, augment_dataset_other
 
 from PIL import Image
 def model_stealing(path_to_png_file: str):
@@ -22,13 +23,25 @@ def model_stealing(path_to_png_file: str):
         else:
             raise Exception(f"Request failed. Status code: {response.status_code}, content: {response.content}")
 
-df = pd.DataFrame(columns=["ID", "model_output"])
+def genearte_png():
+    dataset = torch.load("data/ModelStealingPub.pt")   
+    dataset.imgs = dataset.imgs[:300]
+    dataset.labels = dataset.labels[:300]
+    dataset.ids = dataset.ids[:300]    
+    dataset = augment_dataset_other(dataset)
 
-for i in range(1, 13000, 200):
-    new_value = {"ID": i, "model_output": model_stealing(f"png_photos/img{i}.png")}
-    df = df.append(new_value, ignore_index=True)
+    for i in range(len(dataset.imgs)):
+        dataset.imgs[i].save(f'png_files/photo+{i}.png')
 
-df.to_csv("outputs/output.csv", sep=';', index=False)
+def send_queries():
+    df = pd.DataFrame(columns=["ID", "model_output"])
+    for i in range(0, 600):
+        new_value = {"ID": i, "model_output": model_stealing(f"png_files/photo+{i}.png")}
+        df = df.append(new_value, ignore_index=True)
+
+    df.to_csv("outputs/output2.csv", sep=';', index=False)
+
+send_queries()
 
 
 
