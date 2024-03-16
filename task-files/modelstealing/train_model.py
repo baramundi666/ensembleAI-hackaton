@@ -9,22 +9,34 @@ import torch.optim as optim
 from dataset_augmentation import augment_dataset
 
 
+def map_labels(labels):
+    d = dict()
+    counter = 1
+    for label in labels:
+        if label not in d:
+            d[label] = counter
+            counter += 1
+    return d
+
+
 if __name__ == "__main__":
     # Wczytaj zapisany model danych
     dataset = torch.load("data/ModelStealingPub.pt")
-    dataset = augment_dataset(dataset)
 
+    # Rozszerz model
+    dataset = augment_dataset(dataset)
 
     # Uzyskaj dostęp do obrazów i etykiet z wczytanego zestawu danych
     imgs = dataset.imgs
     labels = dataset.labels
     images_rgb = []
     for img in imgs:
-        if type(img) == Image:
+        if type(img) is not int:
             images_rgb.append(img.convert("RGB"))
 
-    labels_int = [i for i in range(13000)]
-
+    # labels_int = [i for i in range(len(dataset.))]
+    labels_dict = map_labels(labels)
+    labels_int = [labels_dict[label] for label in labels]
     transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
