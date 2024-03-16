@@ -53,8 +53,6 @@ def train_model(scaling_config=None):
     # load dataset
     dataset = torch.load("./data/ModelStealingPub.pt")
 
-    dataset = scale_dataset(dataset,scaling_config)
-
     # dataset scaling (optional)
     if scaling_config is not None:
         dataset = scale_dataset(dataset, scaling_config)
