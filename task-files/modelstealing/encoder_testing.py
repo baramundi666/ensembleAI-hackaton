@@ -7,9 +7,22 @@ from taskdataset import TaskDataset
 from autoencoder import Autoencoder
 # Wczytaj model autoenkodera z pliku
 # autoencoder = torch.load('models/autoencoder_model.pt')
+# Load the state dict
+state_dict = torch.load('image_to_vector_model.pt')
+
+# Extract the encoder state dict
+# encoder_state_dict = {k: v for k, v in state_dict.items() if k.startswith('encoder')}
+
+# Load the encoder state dict into the autoencoder model
 autoencoder = Autoencoder()
-autoencoder.load_state_dict(torch.load('models/autoencoder_model.pt'))
+# autoencoder.encoder.load_state_dict(encoder_state_dict)
+
+# Set the model to evaluation mode
 autoencoder.eval()
+
+# autoencoder = Autoencoder()
+# autoencoder.load_state_dict(torch.load('image_to_vector_model.pt'))
+# autoencoder.eval()
 # Wczytaj przykładowy obraz
 
 dataset = torch.load("data/ModelStealingPub.pt")
