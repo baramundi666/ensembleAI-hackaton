@@ -4,7 +4,7 @@ from torchvision.models import resnet18
 import torch.nn as nn
 import torch.optim as optim
 from dataset_augmentation import augment_dataset
-
+from taskdataset import TaskDataset
 
 def map_labels(labels):
     d = dict()
@@ -20,9 +20,9 @@ if __name__ == "__main__":
     # Wczytaj zapisany model danych
     dataset = torch.load("data/ModelStealingPub.pt")
     dataset_pt = TaskDataset()
-    dataset_pt.ids = dataset.ids[:900]
-    dataset_pt.imgs = dataset.imgs[:900]
-    dataset_pt.labels = dataset.labels[:900]
+    dataset_pt.ids = dataset.ids[:13000]
+    dataset_pt.imgs = dataset.imgs[:13000]
+    dataset_pt.labels = dataset.labels[:13000]
 
     # Rozszerz model
     dataset = augment_dataset(dataset_pt)
@@ -63,10 +63,10 @@ if __name__ == "__main__":
 
     # Definiuj funkcję straty i optymalizator
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    optimizer = optim.Adam(model.parameters(), lr=0.0001)
 
     # Trenuj model
-    num_epochs = 10
+    num_epochs = 50
     for epoch in range(num_epochs):
         model.train()
         running_loss = 0.0
@@ -80,4 +80,4 @@ if __name__ == "__main__":
             running_loss += loss.item() * images.size(0)
         epoch_loss = running_loss / len(train_loader.dataset)
         print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {epoch_loss:.4f}")
-    torch.save(model.state_dict(), 'wytrenowany_model.pt')
+    torch.save(model.state_dict(), 'wytrenowany_model1.pt')
