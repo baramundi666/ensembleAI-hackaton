@@ -22,9 +22,9 @@ if __name__ == "__main__":
     # Wczytaj zapisany model danych
     dataset = torch.load("data/ModelStealingPub.pt")
     dataset_pt = TaskDataset()
-    dataset_pt.ids = dataset.ids[:2000]
-    dataset_pt.imgs = dataset.imgs[:2000]
-    dataset_pt.labels = dataset.labels[:2000]
+    dataset_pt.ids = dataset.ids[:13000]
+    dataset_pt.imgs = dataset.imgs[:13000]
+    dataset_pt.labels = dataset.labels[:13000]
 
     # Rozszerz model
     dataset = augment_dataset_other(dataset_pt)
