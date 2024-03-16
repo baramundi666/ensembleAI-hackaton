@@ -121,9 +121,9 @@ def train_model(scaling_config=None):
 if __name__ == '__main__':
     # temporary dataset cut
     # adjust this config before training
-    config = {
-        'method': ScalingMethod.INTERVAL,
-        'range': (0, 13)
-    }
+    # config = {
+    #     'method': ScalingMethod.INTERVAL,
+    #     'range': (0, 13)
+    # }
 
-    train_model(config)
+    train_model()
