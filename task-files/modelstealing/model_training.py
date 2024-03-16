@@ -1,26 +1,65 @@
+from enum import Enum
 import torch
 from torchvision.transforms import transforms
 from torchvision.models import resnet18
 import torch.nn as nn
 import torch.optim as optim
 from dataset_augmentation import augment_dataset
+from taskdataset import TaskDataset
+from utils import map_labels, shuffle_multiple_lists, generate_model_name
 
 
-def map_labels(labels):
-    d = dict()
-    counter = 1
-    for label in labels:
-        if label not in d:
-            d[label] = counter
-            counter += 1
-    return d
+class ScalingMode(Enum):
+    NONE = 1
+    UNDER = 2
+    UPPER = 3
 
 
-if __name__ == "__main__":
-    # Wczytaj zapisany model danych
-    dataset = torch.load("data/ModelStealingPub.pt")
+class ScalingMethod(Enum):
+    RANDOM = 1
+    INTERVAL = 2
 
-    # Rozszerz model
+
+# example scaling config
+example_scaling_config = {
+    'mode': ScalingMode.UNDER,
+    'method': ScalingMethod.RANDOM
+}
+
+
+def scale_dataset(dataset: TaskDataset, scaling_config):
+    if scaling_config['method'] == ScalingMethod.INTERVAL:
+        start, end = scaling_config['range']
+        dataset.imgs = dataset.imgs[start:end]
+        dataset.labels = dataset.labels[start:end]
+        dataset.ids = dataset.ids[start:end]
+        return dataset
+
+    elif scaling_config['method'] == ScalingMethod.RANDOM:
+        count = scaling_config['count']
+        new_imgs, new_labels, new_ids = shuffle_multiple_lists(dataset.imgs, dataset.labels, dataset.ids)
+        new_imgs = new_imgs[:count]
+        new_labels = new_labels[:count]
+        new_ids = new_ids[:count]
+        new_dataset = TaskDataset()
+        new_dataset.imgs = new_imgs
+        new_dataset.labels = new_labels
+        new_dataset.ids = new_ids
+        return new_dataset
+    else:
+        return None
+
+def train_model(scaling_config=None):
+    # load dataset
+    dataset = torch.load("./data/ModelStealingPub.pt")
+
+    dataset = scale_dataset(dataset,scaling_config)
+
+    # dataset scaling (optional)
+    if scaling_config:
+        dataset = scale_dataset(dataset, scaling_config)
+
+    # augment dataset
     dataset = augment_dataset(dataset)
 
     # Uzyskaj dostęp do obrazów i etykiet z wczytanego zestawu danych
@@ -31,9 +70,9 @@ if __name__ == "__main__":
         if type(img) is not int:
             images_rgb.append(img.convert("RGB"))
 
-    # labels_int = [i for i in range(len(dataset.))]
     labels_dict = map_labels(labels)
     labels_int = [labels_dict[label] for label in labels]
+
     transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
@@ -76,4 +115,15 @@ if __name__ == "__main__":
             running_loss += loss.item() * images.size(0)
         epoch_loss = running_loss / len(train_loader.dataset)
         print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {epoch_loss:.4f}")
-    torch.save(model.state_dict(), 'wytrenowany_model.pt')
+    torch.save(model.state_dict(), f'models/{generate_model_name()}.pt')
+
+
+if __name__ == '__main__':
+    # temporary dataset cut
+    # adjust this config before training
+    config = {
+        'method': ScalingMethod.INTERVAL,
+        'range': (0, 13)
+    }
+
+    train_model(config)
