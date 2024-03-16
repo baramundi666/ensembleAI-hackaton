@@ -3,7 +3,7 @@ import torch
 from torchvision.models import resnet18
 from torchvision.transforms import transforms
 
-TRANING_SET_SIZE = 39000
+TRANING_SET_SIZE = 39
 
 def map_labels(labels):
     d = dict()
@@ -30,16 +30,12 @@ transform = transforms.Compose([
 ])
 
 imgs_tensor = torch.stack([transform(img.convert("RGB")) for img in imgs])
-print(imgs_tensor.size(0))
 
 with torch.no_grad():
     predictions = model(imgs_tensor)
 
 predicted_classes = torch.argmax(predictions, dim=1)
 
-
-print("Przewidywane klasy:")
-print(predicted_classes)
 labels = dataset.labels
 labels_dict = map_labels(labels)
 score = 0 
