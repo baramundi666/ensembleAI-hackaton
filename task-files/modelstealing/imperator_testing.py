@@ -11,7 +11,7 @@ from PIL import Image
 from imperator import ImageToVector
 
 model = ImageToVector()
-model.load_state_dict(torch.load('image_to_vector_model.pt'))
+model.load_state_dict(torch.load('models/image_to_vector_model.pt'))
 model.eval()
 
 
@@ -29,5 +29,3 @@ imgs_tensor = torch.stack([transform(img.convert("RGB")) for img in imgs])  # Ad
 # Perform inference to obtain the vector representation
 with torch.no_grad():
     output_vectors = model(imgs_tensor)
-
-print(output_vectors.shape)
