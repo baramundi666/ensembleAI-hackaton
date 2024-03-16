@@ -2,6 +2,7 @@ import random
 from PIL import Image, ImageEnhance
 import numpy as np
 
+
 def crop_img(image, size=(16, 16)):
     width, height = image.size
     left = random.randint(0, width - size[0])
@@ -13,10 +14,12 @@ def crop_img(image, size=(16, 16)):
 
     return resized_image
 
+
 def rotate_img(image, angel=90):
     rotated_image = image.rotate(angel)
 
     return rotated_image
+
 
 def color_distort(image, brightness=0.4, contrast=0.4, saturation=0.4, hue=0.1):
     # Convert image to HSV color space
@@ -45,6 +48,7 @@ def color_distort(image, brightness=0.4, contrast=0.4, saturation=0.4, hue=0.1):
     image_rgb = image_hsv.convert('RGB')
 
     return image_rgb
+
 
 def add_gaussian_noise(image, mean=2, std=0.1):
     # Convert image to numpy array

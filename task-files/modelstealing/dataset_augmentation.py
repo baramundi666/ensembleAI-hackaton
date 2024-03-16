@@ -1,6 +1,6 @@
 import torch
 from taskdataset import TaskDataset
-
+from img_augmentation import crop_img
 
 def generate_augmented_dataset(dataset: TaskDataset):
     augmented_dataset = TaskDataset()
@@ -11,7 +11,8 @@ def generate_augmented_dataset(dataset: TaskDataset):
 
         # here we want to transform each image and keep the label (don't know if id is needed)
 
-        # new_img = process_img(img)
+        # 1. crop, color
+        new_img = crop_img(img)
         augmented_dataset.imgs.append(new_img)
         augmented_dataset.labels.append(label)
         augmented_dataset.ids.append(None)
