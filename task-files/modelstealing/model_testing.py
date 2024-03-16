@@ -3,7 +3,7 @@ import torch
 from torchvision.models import resnet18
 from torchvision.transforms import transforms
 
-TRANING_SET_SIZE = 39
+TRANING_SET_SIZE = 39000
 
 def map_labels(labels):
     d = dict()
@@ -21,7 +21,7 @@ model = resnet18(pretrained=False)
 num_ftrs = model.fc.in_features
 model.fc = torch.nn.Linear(num_ftrs, TRANING_SET_SIZE)  
 
-model.load_state_dict(torch.load('wytrenowany_model.pt'))
+model.load_state_dict(torch.load('models/model_2024_03_16_17:00.pt'))
 model.eval()
 
 transform = transforms.Compose([
