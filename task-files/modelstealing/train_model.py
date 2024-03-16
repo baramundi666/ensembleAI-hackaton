@@ -19,9 +19,13 @@ def map_labels(labels):
 if __name__ == "__main__":
     # Wczytaj zapisany model danych
     dataset = torch.load("data/ModelStealingPub.pt")
+    dataset_pt = TaskDataset()
+    dataset_pt.ids = dataset.ids[:900]
+    dataset_pt.imgs = dataset.imgs[:900]
+    dataset_pt.labels = dataset.labels[:900]
 
     # Rozszerz model
-    dataset = augment_dataset(dataset)
+    dataset = augment_dataset(dataset_pt)
 
     # Uzyskaj dostęp do obrazów i etykiet z wczytanego zestawu danych
     imgs = dataset.imgs
