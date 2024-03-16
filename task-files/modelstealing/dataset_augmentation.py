@@ -1,6 +1,7 @@
 import torch
 from taskdataset import TaskDataset
-from img_augmentation import crop_img
+from img_augmentation import crop_img, color_distort
+
 
 def generate_augmented_dataset(dataset: TaskDataset):
     augmented_dataset = TaskDataset()
@@ -13,6 +14,7 @@ def generate_augmented_dataset(dataset: TaskDataset):
 
         # 1. crop, color
         new_img = crop_img(img)
+        new_img = color_distort(new_img)
         augmented_dataset.imgs.append(new_img)
         augmented_dataset.labels.append(label)
         augmented_dataset.ids.append(None)
