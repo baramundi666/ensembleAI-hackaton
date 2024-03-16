@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from torchvision.transforms import transforms
 from PIL import Image
 
-from image_to_vector import ImageToVector
+from imperator import ImageToVector
     
 
 dataset = torch.load("data/ModelStealingPub.pt")

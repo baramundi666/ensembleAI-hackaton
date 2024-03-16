@@ -1,6 +1,6 @@
 import requests
 def model_stealing_submission(path_to_onnx_file: str):
-    SERVER_URL = "[paste server url here]"
+    SERVER_URL = "http://34.71.138.79:9090"
     ENDPOINT = "/modelstealing/submit"
     URL = SERVER_URL + ENDPOINT
 
@@ -15,3 +15,7 @@ def model_stealing_submission(path_to_onnx_file: str):
             return response.content["score"]
         else:
             raise Exception(f"Request failed. Status code: {response.status_code}, content: {response.content}")
+        
+path = "modelstealing/model1.onnx"
+
+print(model_stealing_submission(path))

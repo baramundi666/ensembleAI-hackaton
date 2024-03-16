@@ -8,7 +8,7 @@ import pandas as pd
 from torch.utils.data import DataLoader
 from torchvision.transforms import transforms
 from PIL import Image
-from image_to_vector import ImageToVector
+from imperator import ImageToVector
 
 model = ImageToVector()
 model.load_state_dict(torch.load('image_to_vector_model.pt'))

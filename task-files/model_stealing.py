@@ -1,6 +1,6 @@
 import requests
 def model_stealing(path_to_png_file: str):
-    SERVER_URL = "[paste server url here]"
+    SERVER_URL = "http://34.71.138.79:9090"
     ENDPOINT = "/modelstealing"
     URL = SERVER_URL + ENDPOINT
 
@@ -15,3 +15,4 @@ def model_stealing(path_to_png_file: str):
             return response.content["representation"]
         else:
             raise Exception(f"Request failed. Status code: {response.status_code}, content: {response.content}")
+        
