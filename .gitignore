@@ -163,3 +163,4 @@ cython_debug/
 
 *.npz
 *.pt
+.png
