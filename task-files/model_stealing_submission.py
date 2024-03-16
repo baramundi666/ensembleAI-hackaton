@@ -1,3 +1,4 @@
+import requests
 def model_stealing_submission(path_to_onnx_file: str):
     SERVER_URL = "[paste server url here]"
     ENDPOINT = "/modelstealing/submit"

@@ -1,3 +1,4 @@
+import requests
 def model_stealing_reset():
     SERVER_URL = "[paste server url here]"
     ENDPOINT = "/modelstealing/reset"
