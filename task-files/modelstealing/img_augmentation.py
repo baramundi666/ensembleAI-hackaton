@@ -20,6 +20,11 @@ def rotate_img(image, angel=90):
 
     return rotated_image
 
+def flip_img(image):
+    flipped_image = image.transpose(method=Image.Transpose.FLIP_LEFT_RIGHT)
+
+    return flipped_image
+
 
 def color_distort(image, jitter=0.4):
     # Convert image to HSV color space

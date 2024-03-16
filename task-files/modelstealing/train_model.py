@@ -3,8 +3,10 @@ from torchvision.transforms import transforms
 from torchvision.models import resnet18
 import torch.nn as nn
 import torch.optim as optim
-from dataset_augmentation import augment_dataset
+
 from taskdataset import TaskDataset
+from dataset_augmentation import augment_dataset, augment_dataset_other
+
 
 def map_labels(labels):
     d = dict()
@@ -25,7 +27,7 @@ if __name__ == "__main__":
     dataset_pt.labels = dataset.labels[:13000]
 
     # Rozszerz model
-    dataset = augment_dataset(dataset_pt)
+    dataset = augment_dataset_other(dataset_pt)
 
     # Uzyskaj dostęp do obrazów i etykiet z wczytanego zestawu danych
     imgs = dataset.imgs
@@ -80,4 +82,4 @@ if __name__ == "__main__":
             running_loss += loss.item() * images.size(0)
         epoch_loss = running_loss / len(train_loader.dataset)
         print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {epoch_loss:.4f}")
-    torch.save(model.state_dict(), 'wytrenowany_model1.pt')
+    torch.save(model.state_dict(), 'wytrenowany_model.pt')
