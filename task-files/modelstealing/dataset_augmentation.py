@@ -1,6 +1,6 @@
 import torch
 from taskdataset import TaskDataset
-from img_augmentation import crop_img, color_distort, rotate_img, add_gaussian_noise, sobel_filter
+from img_augmentation import crop_img, color_distort, rotate_img
 
 
 def augment_dataset(dataset: TaskDataset):
@@ -10,19 +10,13 @@ def augment_dataset(dataset: TaskDataset):
         label = dataset.labels[i]
         ids = dataset.ids[i]
 
-        # here we want to transform each image and keep the label (don't know if id is needed)
-
+        # augmenting the img
         crop_color = color_distort(crop_img(img))
-        crop_sobel = sobel_filter(crop_img(img))
         crop_rotate = rotate_img(crop_img(img))
 
         augmented_dataset.imgs.append(crop_color)
         augmented_dataset.labels.append(label)
         augmented_dataset.ids.append(ids)
-
-        augmented_dataset.imgs.append(crop_sobel)
-        augmented_dataset.labels.append(label)
-        augmented_dataset.imgs.append(ids)
 
         augmented_dataset.imgs.append(crop_rotate)
         augmented_dataset.labels.append(label)
@@ -43,3 +37,4 @@ if __name__ == "__main__":
     dataset.labels = pt_dataset.labels
 
     augmented_dataset = augment_dataset(dataset)
+
