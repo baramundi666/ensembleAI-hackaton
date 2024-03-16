@@ -82,4 +82,4 @@ if __name__ == "__main__":
             running_loss += loss.item() * images.size(0)
         epoch_loss = running_loss / len(train_loader.dataset)
         print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {epoch_loss:.4f}")
-    torch.save(model.state_dict(), 'wytrenowany_model1.pt')
+    torch.save(model.state_dict(), 'wytrenowany_model.pt')

@@ -98,10 +98,10 @@ def train_model(scaling_config=None):
 
     # Definiuj funkcję straty i optymalizator
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    optimizer = optim.Adam(model.parameters(), lr=0.0001)
 
     # Trenuj model
-    num_epochs = 10
+    num_epochs = 50
     for epoch in range(num_epochs):
         model.train()
         running_loss = 0.0

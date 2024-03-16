@@ -3,6 +3,8 @@ import torch
 from torchvision.models import resnet18
 from torchvision.transforms import transforms
 
+TRANING_SET_SIZE = 39000
+
 def map_labels(labels):
     d = dict()
     counter = 1
@@ -17,7 +19,7 @@ imgs = dataset.imgs
 
 model = resnet18(pretrained=False)  
 num_ftrs = model.fc.in_features
-model.fc = torch.nn.Linear(num_ftrs, 2700)  
+model.fc = torch.nn.Linear(num_ftrs, TRANING_SET_SIZE)  
 
 model.load_state_dict(torch.load('wytrenowany_model.pt'))
 model.eval()
@@ -28,6 +30,7 @@ transform = transforms.Compose([
 ])
 
 imgs_tensor = torch.stack([transform(img.convert("RGB")) for img in imgs])
+print(imgs_tensor.size(0))
 
 with torch.no_grad():
     predictions = model(imgs_tensor)
@@ -42,8 +45,8 @@ labels_dict = map_labels(labels)
 score = 0 
 
 
-for i in range(300):
+for i in range(imgs_tensor.size(0)):
     if labels_dict[labels[i]] == predicted_classes[i]:
         score += 1
 
-print("Dokładność modelu: ", score/13000)
+print("Dokładność modelu: ", score/imgs_tensor.size(0))
