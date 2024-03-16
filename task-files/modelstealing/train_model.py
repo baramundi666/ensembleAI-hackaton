@@ -3,8 +3,10 @@ from torchvision.transforms import transforms
 from torchvision.models import resnet18
 import torch.nn as nn
 import torch.optim as optim
-from dataset_augmentation import augment_dataset
+
 from taskdataset import TaskDataset
+from dataset_augmentation import augment_dataset, augment_dataset_other
+
 
 def map_labels(labels):
     d = dict()
@@ -25,7 +27,7 @@ if __name__ == "__main__":
     dataset_pt.labels = dataset.labels[:2000]
 
     # Rozszerz model
-    dataset = augment_dataset(dataset_pt)
+    dataset = augment_dataset_other(dataset_pt)
 
     # Uzyskaj dostęp do obrazów i etykiet z wczytanego zestawu danych
     imgs = dataset.imgs
