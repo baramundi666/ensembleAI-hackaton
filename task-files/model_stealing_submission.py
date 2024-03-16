@@ -16,6 +16,6 @@ def model_stealing_submission(path_to_onnx_file: str):
         else:
             raise Exception(f"Request failed. Status code: {response.status_code}, content: {response.content}")
         
-path = "modelstealing/model1.onnx"
+path = "modelstealing/models/model1.onnx"
 
 print(model_stealing_submission(path))
