@@ -4,8 +4,7 @@ import torch
 
 
 class TaskDataset(Dataset):
-    def __init__(self, transform=None):
-
+    def __init__(self, transform=None):     
         self.ids = []
         self.imgs = []
         self.labels = []
