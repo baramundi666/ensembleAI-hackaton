@@ -3,7 +3,7 @@ from taskdataset import TaskDataset
 from img_augmentation import crop_img, color_distort
 
 
-def generate_augmented_dataset(dataset: TaskDataset):
+def augment_dataset(dataset: TaskDataset):
     augmented_dataset = TaskDataset()
     for i in range(len(dataset.labels)):
         img = dataset.imgs[i]
@@ -18,14 +18,9 @@ def generate_augmented_dataset(dataset: TaskDataset):
         augmented_dataset.imgs.append(new_img)
         augmented_dataset.labels.append(label)
         augmented_dataset.ids.append(None)
-    return augmented_dataset
 
+    dataset.imgs += augmented_dataset.imgs
+    dataset.labels += augmented_dataset.labels
+    dataset.ids += augmented_dataset.ids
 
-if __name__ == "__main__":
-    pt_dataset = torch.load("../modelstealing/data/ModelStealingPub.pt")
-    dataset = TaskDataset()
-    dataset.ids = pt_dataset.ids
-    dataset.imgs = pt_dataset.imgs
-    dataset.labels = pt_dataset.labels
-
-    augmented_dataset = generate_augmented_dataset(dataset)
+    return dataset
