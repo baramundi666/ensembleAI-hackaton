@@ -56,7 +56,7 @@ def train_model(scaling_config=None):
     dataset = scale_dataset(dataset,scaling_config)
 
     # dataset scaling (optional)
-    if scaling_config:
+    if scaling_config is not None:
         dataset = scale_dataset(dataset, scaling_config)
 
     # augment dataset
