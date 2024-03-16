@@ -46,8 +46,7 @@ def scale_dataset(dataset: TaskDataset, scaling_config):
         new_dataset.labels = new_labels
         new_dataset.ids = new_ids
         return new_dataset
-    else:
-        return None
+    return None
 
 def train_model(scaling_config=None):
     # load dataset
@@ -119,9 +118,10 @@ def train_model(scaling_config=None):
 if __name__ == '__main__':
     # temporary dataset cut
     # adjust this config before training
-    # config = {
-    #     'method': ScalingMethod.INTERVAL,
-    #     'range': (0, 13)
-    # }
+
+    config = {
+        'method': ScalingMethod.RANDOM,
+        'range': (0, 13)
+    }
 
     train_model()
