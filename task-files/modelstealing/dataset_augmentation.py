@@ -28,10 +28,6 @@ def augment_dataset(dataset: TaskDataset):
         augmented_dataset.labels.append(label)
         augmented_dataset.ids.append(ids)
 
-        augmented_dataset.imgs.append(img)
-        augmented_dataset.labels.append(label)
-        augmented_dataset.imgs.append(ids)
-
     dataset.imgs += augmented_dataset.imgs
     dataset.labels += augmented_dataset.labels
     dataset.ids += augmented_dataset.ids
