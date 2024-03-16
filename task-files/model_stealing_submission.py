@@ -4,7 +4,7 @@ def model_stealing_submission(path_to_onnx_file: str):
     ENDPOINT = "/modelstealing/submit"
     URL = SERVER_URL + ENDPOINT
 
-    TEAM_TOKEN = "[paste your team token here]"
+    TEAM_TOKEN = "3FNWQO9kLVQmnLj4"
 
     with open(path_to_onnx_file, "rb") as onnx_file:
         response = requests.post(

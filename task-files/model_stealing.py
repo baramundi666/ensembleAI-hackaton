@@ -4,7 +4,7 @@ def model_stealing(path_to_png_file: str):
     ENDPOINT = "/modelstealing"
     URL = SERVER_URL + ENDPOINT
 
-    TEAM_TOKEN = "[paste your team token here]"
+    TEAM_TOKEN = "3FNWQO9kLVQmnLj4"
 
     with open(path_to_png_file, "rb") as img_file:
         response = requests.get(
