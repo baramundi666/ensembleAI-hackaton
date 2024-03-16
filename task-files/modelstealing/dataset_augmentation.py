@@ -49,10 +49,6 @@ def augment_dataset_other(dataset: TaskDataset):
         augmented_dataset.imgs.append(new_image)
         augmented_dataset.labels.append(label)
         augmented_dataset.ids.append(ids)
-        # old
-        augmented_dataset.imgs.append(img)
-        augmented_dataset.labels.append(label)
-        augmented_dataset.ids.append(ids)
 
     dataset.imgs += augmented_dataset.imgs
     dataset.labels += augmented_dataset.labels
