@@ -4,7 +4,7 @@ from torchvision.transforms import transforms
 from torchvision.models import resnet18
 import torch.nn as nn
 import torch.optim as optim
-from dataset_augmentation import augment_dataset
+from dataset_augmentation import augment_dataset, augment_dataset_other
 from taskdataset import TaskDataset
 from utils import map_labels, shuffle_multiple_lists, generate_model_name
 
@@ -57,8 +57,9 @@ def train_model(scaling_config=None):
     if scaling_config is not None:
         dataset = scale_dataset(dataset, scaling_config)
 
-    # augment dataset
-    dataset = augment_dataset(dataset)
+    print(f"Dataset size: {len(dataset.imgs)}")
+
+    dataset = augment_dataset_other(dataset)
 
     # Uzyskaj dostęp do obrazów i etykiet z wczytanego zestawu danych
     imgs = dataset.imgs
@@ -68,9 +69,9 @@ def train_model(scaling_config=None):
         if type(img) is not int:
             images_rgb.append(img.convert("RGB"))
 
+    # labels_int = [i for i in range(len(dataset.))]
     labels_dict = map_labels(labels)
     labels_int = [labels_dict[label] for label in labels]
-
     transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
@@ -113,15 +114,16 @@ def train_model(scaling_config=None):
             running_loss += loss.item() * images.size(0)
         epoch_loss = running_loss / len(train_loader.dataset)
         print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {epoch_loss:.4f}")
-    torch.save(model.state_dict(), f'models/{generate_model_name()}.pt')
+
+    torch.save(model.state_dict(), 'wytrenowany_model.pt')
 
 
 if __name__ == '__main__':
     # temporary dataset cut
     # adjust this config before training
-    # config = {
-    #     'method': ScalingMethod.INTERVAL,
-    #     'range': (0, 13)
-    # }
+    config = {
+        'method': ScalingMethod.INTERVAL,
+        'range': (0, 3000)
+    }
 
-    train_model()
+    train_model(config)
