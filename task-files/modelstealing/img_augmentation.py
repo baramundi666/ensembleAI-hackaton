@@ -21,27 +21,30 @@ def rotate_img(image, angel=90):
     return rotated_image
 
 
-def color_distort(image, brightness=0.4, contrast=0.4, saturation=0.4, hue=0.1):
+def color_distort(image, jitter=0.4):
     # Convert image to HSV color space
     image_hsv = image.convert('HSV')
 
     # Adjust brightness
     enhancer = ImageEnhance.Brightness(image_hsv)
-    image_hsv = enhancer.enhance(1 + random.uniform(-brightness, brightness))
+    brightness_factor = 1 + random.uniform(-jitter, jitter)
+    image_hsv = enhancer.enhance(brightness_factor)
 
     # Adjust contrast
     enhancer = ImageEnhance.Contrast(image_hsv)
-    image_hsv = enhancer.enhance(1 + random.uniform(-contrast, contrast))
+    contrast_factor = 1 + random.uniform(-jitter, jitter)
+    image_hsv = enhancer.enhance(contrast_factor)
 
     # Adjust saturation
     enhancer = ImageEnhance.Color(image_hsv)
-    image_hsv = enhancer.enhance(1 + random.uniform(-saturation, saturation))
+    saturation_factor = 1 + random.uniform(-jitter, jitter)
+    image_hsv = enhancer.enhance(saturation_factor)
 
     # Adjust hue
-    hue_value = random.uniform(-hue, hue)
+    hue_factor = random.uniform(-jitter, jitter)
     image_hsv = image_hsv.convert('RGB')
     image_hsv = Image.merge('HSV', (
-        image_hsv.split()[0].point(lambda x: (x + hue_value) % 256),
+        image_hsv.split()[0].point(lambda x: (x + hue_factor) % 256),
         image_hsv.split()[1],
         image_hsv.split()[2]
     ))
@@ -67,33 +70,3 @@ def add_gaussian_noise(image, mean=2, std=0.1):
     noisy_image = Image.fromarray(np.uint8(noisy_img_array))
 
     return noisy_image
-
-import numpy as np
-from PIL import Image
-from scipy.ndimage import convolve
-
-def sobel_filter(image):
-    # Convert image to grayscale
-    grayscale_image = image.convert('L')
-
-    # Convert grayscale image to numpy array
-    img_array = np.array(grayscale_image)
-
-    # Sobel kernels for horizontal and vertical edges
-    sobel_kernel_x = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
-    sobel_kernel_y = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]])
-
-    # Convolve the image with the Sobel kernels
-    edges_x = convolve(img_array, sobel_kernel_x)
-    edges_y = convolve(img_array, sobel_kernel_y)
-
-    # Compute gradient magnitude
-    gradient_magnitude = np.sqrt(edges_x**2 + edges_y**2)
-
-    # Normalize the gradient magnitude to [0, 255]
-    normalized_gradient = (gradient_magnitude / np.max(gradient_magnitude)) * 255
-
-    # Convert the normalized gradient to uint8
-    gradient_image = Image.fromarray(normalized_gradient.astype(np.uint8))
-
-    return gradient_image
