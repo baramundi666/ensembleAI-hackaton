@@ -28,7 +28,7 @@ def basic(data):
     return transformed_data
 
 def second(data):
-    target_dim = 512
+    target_dim = 1024
     X=data
     # Step 1: Apply PCA for dimensionality reduction
     pca = PCA(n_components=min(X.shape[1], target_dim))
