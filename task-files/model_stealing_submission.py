@@ -12,7 +12,7 @@ def model_stealing_submission(path_to_onnx_file: str):
         )
 
         if response.status_code == 200:
-            print(response.comtent)
+            print(response.content)
             return response.content["score"]
         else:
             raise Exception(f"Request failed. Status code: {response.status_code}, content: {response.content}")

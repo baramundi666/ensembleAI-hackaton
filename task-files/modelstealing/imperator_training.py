@@ -43,9 +43,9 @@ my_dataset = MyDataset('outputs/output2.csv')
 labels = my_dataset.model_outputs
 
 dataset = torch.load("./data/ModelStealingPub.pt")
-dataset.imgs = dataset.imgs[:100]
-dataset.labels = dataset.labels[:100]
-dataset.ids = dataset.ids[:100]    
+dataset.imgs = dataset.imgs[:300]
+dataset.labels = dataset.labels[:300]
+dataset.ids = dataset.ids[:300]    
 dataset = augment_dataset(dataset)
 imgs = dataset.imgs
 
@@ -79,7 +79,7 @@ dataset = MyDataset1(imgs, labels)
 train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
 # Training loop
-num_epochs = 100
+num_epochs = 50
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
@@ -98,7 +98,7 @@ for epoch in range(num_epochs):
     print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {epoch_loss:.4f}")
 
 # Save the trained model
-torch.save(model.state_dict(), 'image_to_vector_model.pt')
+torch.save(model.state_dict(), 'imperator_model.pt')
 
 
 

@@ -25,16 +25,16 @@ def model_stealing(path_to_png_file: str):
 
 def genearte_png():
     dataset = torch.load("data/ModelStealingPub.pt")   
-    dataset.imgs = dataset.imgs[:100]
-    dataset.labels = dataset.labels[:100]
-    dataset.ids = dataset.ids[:100]    
+    dataset.imgs = dataset.imgs[:300]
+    dataset.labels = dataset.labels[:300]
+    dataset.ids = dataset.ids[:300]    
     dataset = augment_dataset(dataset)
 
     for i in range(len(dataset.imgs)):
         dataset.imgs[i].save(f'png_files/photo+{i}.png')
 
 def send_queries():
-    for i in range(300,900):
+    for i in range(0,900):
         new_value = {"ID": i, "model_output": model_stealing(f"png_files/photo+{i}.png")}
         df = pd.DataFrame([new_value])  # Tworzymy tymczasowy DataFrame dla nowej wartości
         df.to_csv("outputs/output2.csv", sep=';', mode='a', index=False, header=not i)  # Dopisujemy do pliku CSV
@@ -43,6 +43,6 @@ def send_queries():
 send_queries()
 # 
 
-#genearte_png()
+
 
 

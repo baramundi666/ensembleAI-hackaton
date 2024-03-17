@@ -7,10 +7,10 @@ from taskdataset import TaskDataset
 # Wczytaj model autoenkodera
 from imperator import ImageToVector
 model = ImageToVector()
-model.load_state_dict(torch.load('image_to_vector_model.pt'))
+model.load_state_dict(torch.load('imperator_model.pt'))
 model.eval()
 
 input_example = torch.randn(1, 3, 32, 32)  
 
 # Eksportuj model do formatu ONNX
-torch.onnx.export(model, input_example, 'models/imperator.onnx', export_params=True, input_names=["x"])
+torch.onnx.export(model, input_example, 'models/imperator2.onnx', export_params=True, input_names=["x"])
