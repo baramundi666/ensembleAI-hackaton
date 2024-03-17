@@ -1,4 +1,4 @@
-from methods import basic
+from methods import *
 import numpy as np
 import requests
 from sklearn.model_selection import train_test_split
@@ -63,8 +63,8 @@ def submit_solution(function):
     defense_submit("file.npz")
 
 if __name__ == "__main__":
-    #submit_solution(basic)
-    evaluate_test(basic)
+    submit_solution(second)
+    #evaluate_test(basic)
 
 
 
