@@ -37,16 +37,17 @@ def parse_vector(vector_string):
     elements = [float(element) for element in elements]
     return elements
 
-from data_request import get_data
-
-imgs = get_data()
-from time import sleep
-sleep(300)
+from dataset_augmentation import augment_dataset, augment_dataset_other
 
 my_dataset = MyDataset('outputs/output2.csv')
 labels = my_dataset.model_outputs
 
 dataset = torch.load("./data/ModelStealingPub.pt")
+dataset.imgs = dataset.imgs[:100]
+dataset.labels = dataset.labels[:100]
+dataset.ids = dataset.ids[:100]    
+dataset = augment_dataset(dataset)
+imgs = dataset.imgs
 
 #imgs = [dataset.imgs[i] for i in my_dataset.ids]
 

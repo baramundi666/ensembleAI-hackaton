@@ -34,7 +34,7 @@ def genearte_png():
         dataset.imgs[i].save(f'png_files/photo+{i}.png')
 
 def send_queries():
-    for i in range(77, 300):
+    for i in range(300,900):
         new_value = {"ID": i, "model_output": model_stealing(f"png_files/photo+{i}.png")}
         df = pd.DataFrame([new_value])  # Tworzymy tymczasowy DataFrame dla nowej wartości
         df.to_csv("outputs/output2.csv", sep=';', mode='a', index=False, header=not i)  # Dopisujemy do pliku CSV
