@@ -5,6 +5,7 @@ from typing import List
 from load_dataset import load
 from typing import Tuple
 import torch
+from taskdataset import TaskDataset
 
 def sybil_attack_reset():
     SERVER_URL = "http://34.71.138.79:9090"
@@ -52,11 +53,12 @@ def transform(ids,imgs,labels,transform, index) -> Tuple[int, torch.Tensor, int]
 
 if __name__ == "__main__":
     dataset = load()
-    print(dataset.ids, dataset.imgs, dataset.labels)
+    # print(dataset.ids, dataset.imgs, dataset.labels)
     np.savez(
-        "data/example_submission.npz",
-        ids=np.random.permutation(20000),
-        representations=np.random.randn(20000, 192),
+        "data/submission.npz",
+        ids=[i for i in range(2*10**5)],
+        representations=np.matrix([[i for i in range(2*10**5)] for j in range(192)])
     )
     ids = [i for i in range(2*10**5)]
-    #sybil_attack(ids, "home", "affine")
+    sybil_attack(ids, "defense", "affine")
+    #sybil_attack_reset()
