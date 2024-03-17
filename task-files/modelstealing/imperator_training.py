@@ -37,12 +37,18 @@ def parse_vector(vector_string):
     elements = [float(element) for element in elements]
     return elements
 
-my_dataset = MyDataset('outputs/output.csv')
+from data_request import get_data
+
+imgs = get_data()
+from time import sleep
+sleep(300)
+
+my_dataset = MyDataset('outputs/output2.csv')
 labels = my_dataset.model_outputs
 
 dataset = torch.load("./data/ModelStealingPub.pt")
 
-imgs = [dataset.imgs[i] for i in my_dataset.ids]
+#imgs = [dataset.imgs[i] for i in my_dataset.ids]
 
 model = ImageToVector()
 
