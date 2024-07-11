@@ -1,4 +1,4 @@
-# EnsembleAI Hackaton
+# ensembleAI hackaton
 #### 16-17/03/2024 r.
 #### Wydział MiNI PW, ul. Koszykowa 75, Warszawa
 ## Drużyna *Crunchy Byte*:
